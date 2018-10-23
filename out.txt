@@ -1,0 +1,15 @@
+Begin
+Frequent Items:
+ item5 : 2
+ item5 item2 : 2
+ item5 item1 : 2
+ item5 item1 item2 : 2
+ item4 : 2
+ item4 item2 : 2
+ item3 : 6
+ item3 item2 : 4
+ item3 item1 : 4
+ item3 item1 item2 : 2
+ item1 : 6
+ item1 item2 : 4
+ item2 : 7
