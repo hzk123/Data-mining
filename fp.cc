@@ -10,7 +10,7 @@
 using namespace std;
 
 #define NON_EXIST -12345
-const int minsup = 2;
+const int minsup = 500;
 typedef struct Fptree
 {
 	unsigned int frequence;
@@ -32,7 +32,7 @@ typedef struct Fptree
         frequence = r.frequence;
         itemName = r.itemName;
         parent = r.parent;
-        for (auto r: r.child) child.push_back(r);
+        for (auto c: r.child) child.push_back(c);
         nxt = r.nxt;
     }
 }node;
@@ -68,27 +68,30 @@ vector<transaction> readFile(string file)
 	if (fin.fail())
 	{
 		cout << "ERROR: CAN NOT OPEN FILE!" << endl;
-		exit(-1);
+		exit(-2333);
 	}
-	string rowContent;
-	while (getline(fin, rowContent))
+	string row;
+	while (getline(fin, row))
 	{
-		istringstream row(rowContent);
+		istringstream fuck(row);
 		transaction trans_temp;
-		row >> trans_temp.tranId;
-		row >> trans_temp.ItemNum;
+		fuck >> trans_temp.ItemNum;
 		for (int i = 0; i < trans_temp.ItemNum; i++)
 		{
 			node tempNode;
 			tempNode.child.clear();
 			tempNode.parent = NULL;
 			tempNode.nxt = NULL;
-			row >> tempNode.itemName;
+			fuck >> tempNode.itemName;
+
+
 			tempNode.frequence = -1;
 			trans_temp.Items.push_back(tempNode);
 		}
 		transactions.push_back(trans_temp);
 	}
+
+	cout << "Loadend" << endl;
 	return transactions;
 }
 map<string, int> getFrequentItem(vector<transaction>const & transactions)
@@ -255,7 +258,7 @@ void outputItems(list<frequentMode> const &modeLists)
 
 int main()
 {
-	string path = "in.txt";
+	string path = "Kaggle.txt";
 	cout << "Begin" << endl;
 	vector<transaction> transactions = readFile(path);
 	map<string, int> result = getFrequentItem(transactions);
