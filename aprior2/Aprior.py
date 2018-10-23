@@ -21,7 +21,7 @@ def convey():
 def loaddata():
 
     ret = [ []  for i in range(1000)];
-    File = open("test.txt","r");
+    File = open("test2.txt","r");
     content = File.readlines();
     now = 0;
     for line in content:
@@ -72,9 +72,9 @@ def getL(Data,C,minsupport):
 
     return L , supportdata;
 def aprior(dataset,minsup ):
-    data = loaddata();
+
     c1 = [];
-    for st in data:
+    for st in dataset:
         for item in st:
             if not[item] in c1:
                 c1.append([item]);
@@ -98,67 +98,29 @@ def aprior(dataset,minsup ):
         K += 1;
     return L , supportdata;
 
-
-def calc2(st,H,supportdata,ret,minconfidence = 0.05):
-    pH = [];
-    for subst in H:
-        conf = supportdata[st] / supportdata[st - subst];
-        if ( conf >= minconfidence):
-            ret.append( (st-subst,subst,conf) );
-            pH.append(subst);
-    return st;
-
-def calc3(st,H,supportdata,ret,minconfidence = 0.05):
-    m = len(H[0]);
-    if ( len(st) > m + 1  ):
-        H1 = getC(H,m+1);
-        H1 = calc2(st,H1,supportdata,ret,minconfidence);
-        if (len(H1) > 1):
-            calc3(st,H,supportdata,ret,minconfidence);
-
-
-def gen(L,supportdata,minconfidence = 0.05):
-    largeitem = [];
-    for i in range(1,len(L)):
-        for st in L[i]:
-            H1 = [frozenset([item]) for item in st];
-            if (i > 1):
-                calc2(st,H1,supportdata,largeitem,minconfidence);
-            else:
-                calc2(st,H1,supportdata,largeitem,minconfidence);
-    return  largeitem;
-
-def calc_confidence(L , supportdata, set1 , set2 ):
-    Count1 = 0;
-    Count2 = 0;
-    for set in L:
-        if (len(set1 & set) == len(set1)):
-            Count1+=1;
-        if (len(set2 & set) == len(set2)):
-            Count2+=1;
-    ret = Count2 * 1.0 / Count1;
-    return ret;
-
-def gen2(L,supportdata,minsup = 0.5):
+def gen(L,supportdata,mincon , minsup):
     largeitem = [];
 
-    for i in range(1,len(L)):
-        for j in range(i+1,len(L)):
-            combine = L[i] | L[j];
-            if ( (L[i] & L[j]) == 0 and combine in supportdata):
-                confidence = calc_confidence(L,supportdata,L[i],combine);
+    itemset = [];
+    for Lk in L:
+        for item in Lk:
+            itemset.append(item);
+    for i in range(len(itemset)):
+        for j in range(len(itemset)):
+            if (i == j): continue;
+            combine = itemset[i] | itemset[j];
+            if ( len(itemset[i] & itemset[j]) == 0 and combine in supportdata):
+                confidence =  supportdata[combine] / supportdata[itemset[i]] ;
                 support = supportdata[combine];
-                if support > minsup :
-                    print( L[i],'->',L[j],'con = ',confidence,' sup = ',support);
-                largeitem.append([L[i],L[j],confidence]);
+                if confidence > mincon and support > minsup :
+                    largeitem.append([itemset[i],itemset[j],confidence]);
     return largeitem;
 
 
 
 data  = loadKaggledata();
-L , supportdata = aprior(data,minsup=100);
-rules = gen(L , supportdata , 0);
-
+L , supportdata = aprior(data,minsup=200);
+rules = gen(L,supportdata, mincon= 0.8 , minsup= 200);
 
 for item in rules:
     st1=[];
@@ -168,4 +130,7 @@ for item in rules:
     for c in item[1]:
         st2.append(ReHash[c]);
     print(st1,"->",st2,item[2]);
-    
+
+
+
+
