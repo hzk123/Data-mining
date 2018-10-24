@@ -1,5 +1,9 @@
 # Report About Association Rule Mining
 
+# dataset
+dataset_group.csv from kaggle
+test.txt test2.txt test3.txt form IBM Quest Data Generator
+ 
 # FP-growth
 
 finished in C++
@@ -14,8 +18,8 @@ finished in C++
 ## speed
 
 
-1. 10K items support = 100 , about 20S
-2. 1k items support = 10 , about 20S
+1. 10K items support = 100 , about S
+2. 1k items support = 10 , about 40S
 3. 100K items support = 100 , about 60S
 
 
@@ -27,9 +31,10 @@ finished in python
 2. Can find association rule
 
 ## speed
-1. 10K items support = 500 , about 60S
-2. 1K items suport = 10 , about 20S
-3. 100 k items support = 500, can't finish in two hour.
+without build and compile time
+1. 10K items support = 500 , about 85S
+2. 1K items suport = 10 , about 0.63s
+3. 100 k items support = 500, can't finish .
 
 # Compare
-??不???，在C2不大于1e3之前，Aprior与Fp-growth的速度相差不大，但C2非常大?，即便我的fp-growth使用map<string,int>,它的表?也比Aprior好很多。
+在C2不大于1e3之前，Aprior与Fp-growth的速度相差不大，但C2非常大?，即便我的fp-growth使用map<string,int>,它的表?也比Aprior好很多。

@@ -10,7 +10,7 @@
 using namespace std;
 
 #define NON_EXIST -12345
-const int minsup = 500;
+const int minsup = 1500;
 typedef struct Fptree
 {
 	unsigned int frequence;
@@ -83,8 +83,6 @@ vector<transaction> readFile(string file)
 			tempNode.parent = NULL;
 			tempNode.nxt = NULL;
 			fuck >> tempNode.itemName;
-
-
 			tempNode.frequence = -1;
 			trans_temp.Items.push_back(tempNode);
 		}
@@ -258,7 +256,9 @@ void outputItems(list<frequentMode> const &modeLists)
 
 int main()
 {
-	string path = "Kaggle.txt";
+    ios::sync_with_stdio(false);
+	int start = clock();
+	string path = "test2.txt";
 	cout << "Begin" << endl;
 	vector<transaction> transactions = readFile(path);
 	map<string, int> result = getFrequentItem(transactions);
@@ -268,6 +268,7 @@ int main()
 	list<frequentMode> modeLists;
 	string tmp="";
 	generateFrequentItems(headerTable, fpTreeRoot, tmp, modeLists);
-	outputItems(modeLists);
+	//outputItems(modeLists);
+	cout << -start + clock() << endl;
 	return 0;
 }

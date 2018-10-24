@@ -1,6 +1,7 @@
 import numpy as np
 import os
 
+import time
 Hash={};
 ReHash={};
 def convey():
@@ -20,14 +21,16 @@ def convey():
 
 def loaddata():
 
-    ret = [ []  for i in range(1000)];
-    File = open("test2.txt","r");
+    ret = [ []  for i in range(10000)];
+    File = open("test.txt","r");
     content = File.readlines();
     now = 0;
     for line in content:
         tmp = line.split(' ');
         a = eval(tmp[0]);b = eval(tmp[1]);
         ret[b].append(a);
+        Hash[a] = a;
+        ReHash[a] = a;
     File.close();
     return ret ;
 
@@ -117,8 +120,8 @@ def gen(L,supportdata,mincon , minsup):
     return largeitem;
 
 
-
-data  = loadKaggledata();
+start = time.clock();
+data  = loaddata();
 L , supportdata = aprior(data,minsup=200);
 rules = gen(L,supportdata, mincon= 0.8 , minsup= 200);
 
@@ -131,6 +134,6 @@ for item in rules:
         st2.append(ReHash[c]);
     print(st1,"->",st2,item[2]);
 
-
+print("totat time = " , time.clock() - start);
 
 

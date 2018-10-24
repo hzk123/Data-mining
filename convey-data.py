@@ -31,4 +31,21 @@ def convey():
         print("",file=File2);
     File.close();
     File2.close();
-convey()
+
+def convey2():
+    File = open("test3.txt","r");
+    File2 = open("test_convey3.txt","w");
+
+    s = File.readlines();
+    ret = [ [] for i in range(100000)];
+    for row in s:
+        [a,b] = row.split(" ");
+        ret[eval(b)].append(eval(a));
+
+    for set in ret:
+        if (len(set) == 0) : continue;
+        print(len(set),end=" ",file= File2);
+        for item in set:
+            print(item,end=" ",file= File2);
+        print("",file= File2);
+convey2()
