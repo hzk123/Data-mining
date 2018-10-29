@@ -10,7 +10,7 @@
 using namespace std;
 
 #define NON_EXIST -12345
-const int minsup = 1500;
+const int minsup = 50;
 typedef struct Fptree
 {
 	unsigned int frequence;
@@ -258,7 +258,10 @@ int main()
 {
     ios::sync_with_stdio(false);
 	int start = clock();
-	string path = "test2.txt";
+	string path = "Kaggle.txt";
+	// string path = "test_convey1.txt";
+	// string path = "test_convey2.txt";
+	// string path = "test_convey3.txt";
 	cout << "Begin" << endl;
 	vector<transaction> transactions = readFile(path);
 	map<string, int> result = getFrequentItem(transactions);
@@ -268,7 +271,7 @@ int main()
 	list<frequentMode> modeLists;
 	string tmp="";
 	generateFrequentItems(headerTable, fpTreeRoot, tmp, modeLists);
-	//outputItems(modeLists);
+	outputItems(modeLists);
 	cout << -start + clock() << endl;
 	return 0;
 }
